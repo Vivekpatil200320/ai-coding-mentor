@@ -2,6 +2,8 @@
 
 You get dropped into intentionally broken code. A Socratic mentor agent asks questions until you find the fix yourself — it never gives you the answer. Pass the tests, and a second agent writes you a rubric-scored senior-engineer code review.
 
+![Landing page](docs/images/landing.png)
+
 **Live demo:** the instance is stopped by default to preserve free-tier cloud credit — see [Running it live](#running-it-live) below for how to spin it up.
 
 ## Why this exists
@@ -27,6 +29,8 @@ router → analysis → mentor ⇄ (chat loop) → execution → evaluation
 The compiled graph above is the design artifact; live traffic is actually served by `backend/api/orchestrator.py` calling the same node functions directly, because the API needs a repeatable mentor↔user chat loop the graph's single edge doesn't model. The reasoning for every non-obvious structural choice like this is written down as an ADR — see [docs/adr/](docs/adr/).
 
 **Stack:** FastAPI + LangGraph (backend) · Next.js 15 (frontend) · Docker (sandboxed execution) · Supabase (persistence) · LangFuse (observability, OTel-based v4 SDK)
+
+![Challenge workspace](docs/images/workspace.png)
 
 ## What's worth actually reading here
 
