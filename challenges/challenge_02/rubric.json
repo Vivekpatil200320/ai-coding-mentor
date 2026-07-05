@@ -1,0 +1,44 @@
+{
+  "challenge_id": "challenge_02",
+  "dimensions": {
+    "correctness": {
+      "weight": 0.35,
+      "description": "Does DELETE /todos/{id} work, and does the rest of the API still pass its tests?",
+      "signals": [
+        "DELETE removes the todo and it no longer appears in GET /todos",
+        "Existing GET and POST endpoints are unaffected"
+      ]
+    },
+    "edge_case_handling": {
+      "weight": 0.2,
+      "description": "Does deleting a non-existent todo fail gracefully?",
+      "signals": [
+        "DELETE on an unknown id returns 404, not 500 or a silent 200",
+        "Deleting the same id twice doesn't crash on the second attempt"
+      ]
+    },
+    "code_readability": {
+      "weight": 0.15,
+      "description": "Does the new endpoint match the style and conventions of the existing endpoints?",
+      "signals": [
+        "Consistent status codes (204 for delete, matching the existing 201 for create)",
+        "Reuses the existing lookup/404 pattern instead of duplicating logic differently"
+      ]
+    },
+    "pattern_recognition": {
+      "weight": 0.15,
+      "description": "Does the user understand REST conventions for delete semantics?",
+      "signals": [
+        "Recognizes DELETE should return 404 (not 500) for unknown resources, mirroring GET",
+        "Understands why 204 No Content is the conventional response for a successful delete"
+      ]
+    },
+    "what_senior_would_catch": {
+      "weight": 0.15,
+      "description": "One specific thing a real engineer would flag in review.",
+      "signals": [
+        "A senior engineer would ask: what happens if two clients try to delete the same todo at the same time?"
+      ]
+    }
+  }
+}

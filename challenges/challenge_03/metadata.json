@@ -1,0 +1,8 @@
+{
+  "id": "challenge_03",
+  "title": "Refactor the Report Generator",
+  "description": "A single function fetches, transforms, and formats report data, then paginates the result — but it's hard to follow, and a hidden off-by-one error silently drops one item from every page. Refactor into focused functions and fix the pagination bug.",
+  "difficulty": "intermediate",
+  "type": "refactor",
+  "learning_objective": "Single responsibility and edge-case thinking — separating distinct concerns into testable units, and recognizing that pagination boundaries are a common source of silent, hard-to-notice bugs."
+}

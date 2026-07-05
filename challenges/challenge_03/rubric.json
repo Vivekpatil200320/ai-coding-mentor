@@ -1,0 +1,44 @@
+{
+  "challenge_id": "challenge_03",
+  "dimensions": {
+    "correctness": {
+      "weight": 0.3,
+      "description": "Does every page return the right items, with none dropped or duplicated across the pagination boundary?",
+      "signals": [
+        "Page 1 returns a full page_size worth of items",
+        "No item is silently dropped between consecutive pages"
+      ]
+    },
+    "edge_case_handling": {
+      "weight": 0.2,
+      "description": "Does the refactor correctly handle the last (partial) page and dataset boundaries?",
+      "signals": [
+        "The final, partial page returns exactly the remaining items",
+        "total_pages and total_items stay consistent with the actual item count"
+      ]
+    },
+    "code_readability": {
+      "weight": 0.2,
+      "description": "Is fetching, filtering, transforming, formatting, and paginating separated into distinct, named functions?",
+      "signals": [
+        "Each function has a single, obvious responsibility",
+        "The top-level function reads like a short pipeline, not a wall of logic"
+      ]
+    },
+    "pattern_recognition": {
+      "weight": 0.15,
+      "description": "Does the user recognize why the original off-by-one was invisible without a boundary test?",
+      "signals": [
+        "Identifies that the bug only manifests at page boundaries, not on arbitrary inputs",
+        "Understands single responsibility as a way to make each step independently testable"
+      ]
+    },
+    "what_senior_would_catch": {
+      "weight": 0.15,
+      "description": "One specific thing a real engineer would flag in review.",
+      "signals": [
+        "A senior engineer would ask: where's the test that actually exercises the last page of pagination?"
+      ]
+    }
+  }
+}

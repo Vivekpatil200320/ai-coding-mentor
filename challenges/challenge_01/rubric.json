@@ -1,0 +1,45 @@
+{
+  "challenge_id": "challenge_01",
+  "dimensions": {
+    "correctness": {
+      "weight": 0.35,
+      "description": "Does the solution pass all automated tests in tests/test_solution.py?",
+      "signals": [
+        "GET /users/{id} returns 200 for an existing user",
+        "GET /users/{id} returns 404 (not a 500 crash) for a missing user",
+        "GET /users still returns the full list unaffected"
+      ]
+    },
+    "edge_case_handling": {
+      "weight": 0.2,
+      "description": "Does the fix handle boundary and invalid inputs, not just the happy path?",
+      "signals": [
+        "Non-existent user IDs return 404 rather than raising",
+        "The fix doesn't assume user_id is always a valid dict key"
+      ]
+    },
+    "code_readability": {
+      "weight": 0.15,
+      "description": "Is the fix minimal, clear, and idiomatic?",
+      "signals": [
+        "Uses HTTPException rather than manually constructing a response",
+        "No unrelated changes bundled into the fix"
+      ]
+    },
+    "pattern_recognition": {
+      "weight": 0.15,
+      "description": "Does the user understand WHY dict[] access is dangerous here, not just that .get() 'fixes' it?",
+      "signals": [
+        "Can explain that unhandled exceptions become 500s and can leak internals",
+        "Recognizes this as a general 'validate before use' pattern, not a one-off fix"
+      ]
+    },
+    "what_senior_would_catch": {
+      "weight": 0.15,
+      "description": "One specific thing a real engineer would flag in review.",
+      "signals": [
+        "A senior engineer would ask: what does the client see when this 500s in production, and does it leak a stack trace?"
+      ]
+    }
+  }
+}

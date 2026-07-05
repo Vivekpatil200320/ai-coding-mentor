@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  backend-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Verify lockfile resolves and app imports
+        working-directory: backend
+        run: |
+          uv sync --frozen
+          uv run python -c "import main"
+
+  frontend-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - working-directory: frontend
+        run: npm ci
+      - working-directory: frontend
+        run: npm run lint
+      - working-directory: frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+
+  # Full integration suite: real NVIDIA calls, real Docker sandbox runs,
+  # real Supabase writes (see backend/CLAUDE.md — no mocking anywhere).
+  # Manual-trigger only, not on every push/PR: it takes ~8-10 minutes and
+  # spends free-tier NVIDIA quota that isn't unlimited.
+  integration-tests:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Build sandbox image
+        run: docker build -t coding-mentor-sandbox ./sandbox
+      - name: Install backend deps
+        working-directory: backend
+        run: uv sync --frozen
+      - name: Run sandbox tests
+        working-directory: backend
+        run: uv run python -m pytest tests/test_sandbox.py -v
+      - name: Run API integration tests
+        working-directory: backend
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: uv run python -m pytest tests/test_api.py -v

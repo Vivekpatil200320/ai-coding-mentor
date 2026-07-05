@@ -1,0 +1,8 @@
+{
+  "id": "challenge_02",
+  "title": "Add the Missing DELETE Endpoint",
+  "description": "A working Todo API supports listing, retrieving, and creating todos, but is missing the ability to delete one. Add a DELETE /todos/{id} endpoint without breaking any existing behavior.",
+  "difficulty": "beginner",
+  "type": "feature_extension",
+  "learning_objective": "RESTful API design — choosing the right HTTP method and status codes for a delete operation, and handling the not-found case consistently with the rest of the API."
+}

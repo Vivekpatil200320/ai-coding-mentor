@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: true
+    volumes:
+      # Sibling-container ("Docker-outside-of-Docker") access: the sandbox
+      # containers docker_runner.py spawns need to be created by the SAME
+      # daemon that's running this backend container, not a nested one.
+      # This only works on a host that exposes its Docker socket — most
+      # serverless/PaaS targets don't. See README "Deploying" for what
+      # that rules in/out.
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

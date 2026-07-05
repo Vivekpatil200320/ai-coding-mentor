@@ -1,0 +1,8 @@
+{
+  "id": "challenge_01",
+  "title": "Fix the Crashing User Lookup",
+  "description": "A FastAPI user directory crashes with an unhandled KeyError when looking up a user that doesn't exist, instead of returning a proper 404. Fix the lookup so missing users are handled gracefully.",
+  "difficulty": "beginner",
+  "type": "bug_fix",
+  "learning_objective": "Error handling and HTTP semantics — understanding why an unhandled exception is a bug (not just an inconvenience), and how to map application state (missing data) to the correct HTTP status code."
+}

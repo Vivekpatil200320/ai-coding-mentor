@@ -1,0 +1,35 @@
+[project]
+name = "ai-coding-mentor-backend"
+version = "0.1.0"
+description = "FastAPI + LangGraph backend for AI Coding Mentor"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "langgraph>=0.2.0",
+    "langchain-nvidia-ai-endpoints>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langfuse>=2.53.0",
+    "pydantic>=2.9.0",
+    "python-dotenv>=1.0.0",
+    "docker>=7.1.0",
+    "httpx>=0.27.0",
+    "slowapi>=0.1.9",
+    "supabase>=2.10.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "grandalf>=0.8",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.uv]
+package = false
