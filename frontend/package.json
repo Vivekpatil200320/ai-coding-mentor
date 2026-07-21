@@ -24,7 +24,7 @@
     "postcss": "^8.4.0",
     "autoprefixer": "^10.4.0",
     "eslint": "^9.17.0",
-    "eslint-config-next": "^15.1.0",
+    "eslint-config-next": "^16.2.10",
     "@eslint/eslintrc": "^3.2.0"
   },
   "overrides": {
