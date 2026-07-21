@@ -5,7 +5,7 @@ description = "FastAPI + LangGraph backend for AI Coding Mentor"
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
-    "fastapi>=0.115.0",
+    "fastapi>=0.139.2",
     "uvicorn[standard]>=0.32.0",
     "langgraph>=0.2.0",
     "langchain-nvidia-ai-endpoints>=0.3.0",
